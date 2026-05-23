@@ -5,8 +5,8 @@ const doc = {
     title: "Task Management API",
     description: "API for Tasks and Projects"
   },
-  host: "https://cse341-node-rosx.onrender.com",
-  schemes: ["http"]
+  host: "cse341-node-rosx.onrender.com",
+  schemes: ["https"]
 };
 
 const outputFile = "./swagger-output.json";

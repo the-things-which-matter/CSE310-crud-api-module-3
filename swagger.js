@@ -5,7 +5,7 @@ const doc = {
     title: "Task Management API",
     description: "API for Tasks and Projects"
   },
-  host: "localhost:3000",
+  host: "https://cse341-node-rosx.onrender.com",
   schemes: ["http"]
 };
 

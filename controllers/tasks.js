@@ -26,20 +26,25 @@ const getSingle = async (req, res) => {
       .getDb()
       .db()
       .collection("tasks")
-      .find({ _id: taskId })
-      .toArray();
+      .findOne({ _id: taskId });
 
-    res.status(200).json(result[0]);
+    // Check if task exists
+    if (!result) {
+      return res.status(404).json("Task not found");
+    }
+
+    res.status(200).json(result);
   } catch (err) {
-    res.status(400).json("Invalid ID or request");
+    res.status(400).json("Invalid task ID");
   }
 };
 
-// POST task (VALIDATION INCLUDED)
+// POST task 
 const createTask = async (req, res) => {
   try {
     const task = req.body;
 
+    // Validation
     if (!task.title) {
       return res.status(400).json("title is required");
     }
@@ -56,10 +61,15 @@ const createTask = async (req, res) => {
   }
 };
 
-// PUT task (UPDATE)
+// PUT task 
 const updateTask = async (req, res) => {
   try {
     const taskId = new ObjectId(req.params.id);
+
+    // Validation
+    if (!req.body.title) {
+      return res.status(400).json("title is required");
+    }
 
     const result = await db
       .getDb()
@@ -70,9 +80,14 @@ const updateTask = async (req, res) => {
         { $set: req.body }
       );
 
+    // Check if task exists
+    if (!result.matchedCount) {
+      return res.status(404).json("Task not found");
+    }
+
     res.status(204).send();
   } catch (err) {
-    res.status(400).json("Invalid update request");
+    res.status(400).json("Invalid task ID");
   }
 };
 
@@ -87,9 +102,14 @@ const deleteTask = async (req, res) => {
       .collection("tasks")
       .deleteOne({ _id: taskId });
 
+    // Check if task exists
+    if (!result.deletedCount) {
+      return res.status(404).json("Task not found");
+    }
+
     res.status(204).send();
   } catch (err) {
-    res.status(400).json("Invalid delete request");
+    res.status(400).json("Invalid task ID");
   }
 };
 

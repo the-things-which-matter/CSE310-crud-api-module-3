@@ -26,20 +26,25 @@ const getSingle = async (req, res) => {
       .getDb()
       .db()
       .collection("projects")
-      .find({ _id: projectId })
-      .toArray();
+      .findOne({ _id: projectId });
 
-    res.status(200).json(result[0]);
+    // Check if project exists
+    if (!result) {
+      return res.status(404).json("Project not found");
+    }
+
+    res.status(200).json(result);
   } catch (err) {
-    res.status(400).json("Invalid ID");
+    res.status(400).json("Invalid project ID");
   }
 };
 
-// POST project (VALIDATION)
+// POST project 
 const createProject = async (req, res) => {
   try {
     const project = req.body;
 
+    // Validation
     if (!project.name || !project.owner) {
       return res.status(400).json("name and owner are required");
     }
@@ -56,12 +61,17 @@ const createProject = async (req, res) => {
   }
 };
 
-// PUT project
+// PUT project 
 const updateProject = async (req, res) => {
   try {
     const projectId = new ObjectId(req.params.id);
 
-    await db
+    // Validation
+    if (!req.body.name || !req.body.owner) {
+      return res.status(400).json("name and owner are required");
+    }
+
+    const result = await db
       .getDb()
       .db()
       .collection("projects")
@@ -70,9 +80,14 @@ const updateProject = async (req, res) => {
         { $set: req.body }
       );
 
+    // Check if project exists
+    if (!result.matchedCount) {
+      return res.status(404).json("Project not found");
+    }
+
     res.status(204).send();
   } catch (err) {
-    res.status(400).json("Update failed");
+    res.status(400).json("Invalid project ID");
   }
 };
 
@@ -81,15 +96,20 @@ const deleteProject = async (req, res) => {
   try {
     const projectId = new ObjectId(req.params.id);
 
-    await db
+    const result = await db
       .getDb()
       .db()
       .collection("projects")
       .deleteOne({ _id: projectId });
 
+    // Check if project exists
+    if (!result.deletedCount) {
+      return res.status(404).json("Project not found");
+    }
+
     res.status(204).send();
   } catch (err) {
-    res.status(400).json("Delete failed");
+    res.status(400).json("Invalid project ID");
   }
 };
 

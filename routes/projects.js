@@ -2,21 +2,60 @@ const express = require("express");
 const router = express.Router();
 
 const projectsController = require("../controllers/projects");
+const auth = require("../middleware/auth"); // JWT middleware
 
-// GET all projects
+//
+//  GET ALL PROJECTS (PUBLIC)
+//
 router.get("/", projectsController.getAll);
 
-// GET single project by ID
+//
+// GET SINGLE PROJECT (PUBLIC)
+//
 router.get("/:id", projectsController.getSingle);
 
-// POST create project
-router.post("/", projectsController.createProject);
+//
+//  CREATE PROJECT (PROTECTED  and  SWAGGER JWT)
+//
+router.post(
+  "/",
 
-// PUT update project
+  /*
+    #swagger.security = [{
+      "bearerAuth": []
+    }]
+
+    #swagger.parameters['body'] = {
+      in: 'body',
+      description: 'Create project',
+      required: true,
+      schema: {
+        name: 'New Project',
+        description: 'Project description',
+        owner: 'Brima',
+        status: 'Active',
+        budget: 5000,
+        startDate: '2026-06-01',
+        endDate: '2026-07-01'
+      }
+    }
+  */
+
+  auth,
+  projectsController.createProject
+);
+
+//
+//  UPDATE PROJECT (PROTECTED and  SWAGGER JWT)
+//
 router.put(
   "/:id",
 
   /*
+    #swagger.security = [{
+      "bearerAuth": []
+    }]
+
     #swagger.parameters['body'] = {
       in: 'body',
       description: 'Update project',
@@ -33,10 +72,24 @@ router.put(
     }
   */
 
+  auth,
   projectsController.updateProject
 );
 
-// DELETE project
-router.delete("/:id", projectsController.deleteProject);
+//
+// DELETE PROJECT (PROTECTED and  SWAGGER JWT)
+//
+router.delete(
+  "/:id",
+
+  /*
+    #swagger.security = [{
+      "bearerAuth": []
+    }]
+  */
+
+  auth,
+  projectsController.deleteProject
+);
 
 module.exports = router;

@@ -75,7 +75,7 @@ app.post(
 
     } catch (err) {
       console.log(" LOGIN ERROR OCCURRED:");
-      console.log(err); // DEBUG 6 (full error)
+      console.log(err); // DEBUG 6
 
       return res.status(500).json({
         error: "Login failed",

@@ -10,7 +10,7 @@ const doc = {
   host: "cse341-node-rosx.onrender.com",
   schemes: ["https"],
 
-  //  JWT AUTH CONFIGURATION
+  //  JWT AUTH Configuration
  securityDefinitions: {
   bearerAuth: {
     type: "apiKey",

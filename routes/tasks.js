@@ -2,29 +2,24 @@ const express = require("express");
 const router = express.Router();
 
 const tasksController = require("../controllers/tasks");
-const auth = require("../middleware/auth"); // JWT middleware
 
 //
-//  GET ALL TASKS (PUBLIC)
+// GET ALL TASKS
 //
 router.get("/", tasksController.getAll);
 
 //
-// GET SINGLE TASK (PUBLIC)
+// GET SINGLE TASK
 //
 router.get("/:id", tasksController.getSingle);
 
 //
-//  CREATE TASK (PROTECTED and SWAGGER AUTH FIX)
+// CREATE TASK
 //
 router.post(
   "/",
 
   /*
-    #swagger.security = [{
-      "bearerAuth": []
-    }]
-
     #swagger.parameters['body'] = {
       in: 'body',
       description: 'Create task',
@@ -41,21 +36,16 @@ router.post(
     }
   */
 
-  auth,
   tasksController.createTask
 );
 
 //
-//  UPDATE TASK (PROTECTED and SWAGGER AUTH FIX)
+// UPDATE TASK
 //
 router.put(
   "/:id",
 
   /*
-    #swagger.security = [{
-      "bearerAuth": []
-    }]
-
     #swagger.parameters['body'] = {
       in: 'body',
       description: 'Update task',
@@ -72,24 +62,12 @@ router.put(
     }
   */
 
-  auth,
   tasksController.updateTask
 );
 
 //
-// DELETE TASK (PROTECTED and SWAGGER AUTH FIX)
+// DELETE TASK
 //
-router.delete(
-  "/:id",
-
-  /*
-    #swagger.security = [{
-      "bearerAuth": []
-    }]
-  */
-
-  auth,
-  tasksController.deleteTask
-);
+router.delete("/:id", tasksController.deleteTask);
 
 module.exports = router;

@@ -3,24 +3,15 @@ const swaggerAutogen = require("swagger-autogen")();
 const doc = {
   info: {
     title: "Task Management API",
-    description: "API for Tasks and Projects with JWT Authentication"
+    description: "API for Tasks and Projects with Auth0 OAuth Authentication"
   },
 
-  // LOCAL DEVELOPMENT SETTINGS
-  host: "cse341-node-rosx.onrender.com",
-  schemes: ["https"],
+  // For LOCAL development
+  host: "localhost:3000",
+  schemes: ["http"],
 
-  //  JWT AUTH Configuration
- securityDefinitions: {
-  bearerAuth: {
-    type: "apiKey",
-    name: "Authorization",
-    in: "header",
-    description: "Paste ONLY the token (Bearer will be added automatically in your mind — but Swagger still requires full format unless we fix middleware)"
-  }
-}
-
-
+  
+  // Auth0 uses session cookies, not bearer tokens
 };
 
 const outputFile = "./swagger-output.json";

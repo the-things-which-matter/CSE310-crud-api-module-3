@@ -2,29 +2,24 @@ const express = require("express");
 const router = express.Router();
 
 const projectsController = require("../controllers/projects");
-const auth = require("../middleware/auth"); // JWT middleware
 
 //
-//  GET ALL PROJECTS (PUBLIC)
+// GET ALL PROJECTS
 //
 router.get("/", projectsController.getAll);
 
 //
-// GET SINGLE PROJECT (PUBLIC)
+// GET SINGLE PROJECT
 //
 router.get("/:id", projectsController.getSingle);
 
 //
-//  CREATE PROJECT (PROTECTED  and  SWAGGER JWT)
+// CREATE PROJECT
 //
 router.post(
   "/",
 
   /*
-    #swagger.security = [{
-      "bearerAuth": []
-    }]
-
     #swagger.parameters['body'] = {
       in: 'body',
       description: 'Create project',
@@ -41,21 +36,16 @@ router.post(
     }
   */
 
-  auth,
   projectsController.createProject
 );
 
 //
-//  UPDATE PROJECT (PROTECTED and  SWAGGER JWT)
+// UPDATE PROJECT
 //
 router.put(
   "/:id",
 
   /*
-    #swagger.security = [{
-      "bearerAuth": []
-    }]
-
     #swagger.parameters['body'] = {
       in: 'body',
       description: 'Update project',
@@ -72,24 +62,12 @@ router.put(
     }
   */
 
-  auth,
   projectsController.updateProject
 );
 
 //
-// DELETE PROJECT (PROTECTED and  SWAGGER JWT)
+// DELETE PROJECT
 //
-router.delete(
-  "/:id",
-
-  /*
-    #swagger.security = [{
-      "bearerAuth": []
-    }]
-  */
-
-  auth,
-  projectsController.deleteProject
-);
+router.delete("/:id", projectsController.deleteProject);
 
 module.exports = router;

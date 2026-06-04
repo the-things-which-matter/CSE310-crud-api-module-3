@@ -6,12 +6,12 @@ const doc = {
     description: "API for Tasks and Projects with Auth0 OAuth Authentication"
   },
 
-  // For LOCAL development
-  host: "localhost:3000",
-  schemes: ["http"],
+  // For Lical development
+  host: "https://cse341-node-rosx.onrender.com",
+  schemes: ["https"],
 
   
-  // Auth0 uses session cookies, not bearer tokens
+  // Auth0 uses session cookies, not bearer tokenss
 };
 
 const outputFile = "./swagger-output.json";

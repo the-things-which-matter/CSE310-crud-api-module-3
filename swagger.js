@@ -7,7 +7,7 @@ const doc = {
   },
 
   // For Lical development
-  host: "https://cse341-node-rosx.onrender.com",
+  host: "cse341-node-rosx.onrender.com",
   schemes: ["https"],
 
   
